@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://b88jt0sx4gco3"
+path="res://.godot/imported/Cave_Tilemap and swatch.aseprite-c45f33ea0b425c3ac282c97ed3aeba08.res"
+
+[deps]
+
+source_file="res://Aseprite Files/Cave_Tilemap and swatch.aseprite"
+dest_files=["res://.godot/imported/Cave_Tilemap and swatch.aseprite-c45f33ea0b425c3ac282c97ed3aeba08.res"]
+
+[params]
+

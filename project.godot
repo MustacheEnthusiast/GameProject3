@@ -11,9 +11,22 @@ config_version=5
 [application]
 
 config/name="Game Project 3"
+config/tags=PackedStringArray("assignment", "game_project", "git_and_fork")
+run/main_scene="res://node_2d.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/script-tabs/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/ldtk-importer/plugin.cfg", "res://addons/script-tabs/plugin.cfg")
+
+[input]
+
+huh={
+"deadzone": 0.5,
+"events": []
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
