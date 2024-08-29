@@ -13,7 +13,7 @@ config_version=5
 config/name="Shrowlers Ascendance"
 config/version="Prototype 0.0.1"
 config/tags=PackedStringArray("assignment", "game_project", "git_and_fork")
-run/main_scene="res://node_2d.tscn"
+run/main_scene="res://Scenes/Testing.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://Aseprite Files/Icon/Icon.svg"
 

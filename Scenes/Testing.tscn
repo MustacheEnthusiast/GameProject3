@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://jas7khlsr43h"]
+
+[ext_resource type="PackedScene" uid="uid://csg8wjf6a5aob" path="res://player.tscn" id="2_bkc88"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fxp10"]
+size = Vector2(400, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ekm6e"]
+size = Vector2(402, 20)
+
+[node name="Testing Area" type="Node2D"]
+
+[node name="Area2D" type="StaticBody2D" parent="."]
+position = Vector2(560, 472)
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+modulate = Color(1, 0.914601, 0.825988, 1)
+texture = SubResource("PlaceholderTexture2D_fxp10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ekm6e")
+
+[node name="Area2D4" type="StaticBody2D" parent="."]
+position = Vector2(160, 470)
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D4"]
+modulate = Color(1, 0.914601, 0.825988, 1)
+texture = SubResource("PlaceholderTexture2D_fxp10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ekm6e")
+
+[node name="Area2D2" type="StaticBody2D" parent="."]
+position = Vector2(536, 356)
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D2"]
+modulate = Color(1, 0.914601, 0.825988, 1)
+texture = SubResource("PlaceholderTexture2D_fxp10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ekm6e")
+one_way_collision = true
+
+[node name="Area2D3" type="StaticBody2D" parent="."]
+position = Vector2(324, 161)
+rotation = 1.55951
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D3"]
+modulate = Color(1, 0.914601, 0.825988, 1)
+texture = SubResource("PlaceholderTexture2D_fxp10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ekm6e")
+one_way_collision = true
+
+[node name="Player" parent="." instance=ExtResource("2_bkc88")]
+position = Vector2(554, 414)
+_Speed = 500
+_Jump_Force = -900
