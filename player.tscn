@@ -1,7 +1,21 @@
-[gd_scene load_steps=31 format=3 uid="uid://csg8wjf6a5aob"]
+[gd_scene load_steps=43 format=3 uid="uid://csg8wjf6a5aob"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScript.gd" id="1_ipmmu"]
+[ext_resource type="PackedScene" uid="uid://cyu4ar4mkpere" path="res://Components/animation_controller.tscn" id="2_3at6a"]
 [ext_resource type="Texture2D" uid="uid://c81x8gv0nh7tm" path="res://Aseprite Files/Shrim Frames/ShrimpVer3.png" id="2_f5tvl"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_2yo3l"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="5_at1br"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="6_hn4k0"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="7_dstdp"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="8_42be4"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/expression_guard.gd" id="9_68rkj"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="10_rraxh"]
+[ext_resource type="PackedScene" uid="uid://cdsxjfv24t6l1" path="res://Components/Input Component/PlayerInputComp.tscn" id="11_xu1wv"]
+[ext_resource type="PackedScene" uid="uid://bkqlik2fxo66g" path="res://Components/Velocity/VelocityComp.tscn" id="12_5gsum"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_04st2"]
+radius = 35.0
+height = 80.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jy16k"]
 atlas = ExtResource("2_f5tvl")
@@ -226,25 +240,35 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_04st2"]
-radius = 35.0
-height = 80.0
+[sub_resource type="Resource" id="Resource_fid6i"]
+script = ExtResource("9_68rkj")
+expression = "is_on_floor() == true"
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="Resource" id="Resource_1r54w"]
+script = ExtResource("10_rraxh")
+state = NodePath("../../../StateCheck/Airborne")
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("InputNode", "VelocityNode", "AnimSprite")]
 script = ExtResource("1_ipmmu")
-_Speed = 300
-_Health = 10
-_Attack_Damage = 10
-_Jump_Force = -400
+InputNode = NodePath("PlayerInputComp")
+VelocityNode = NodePath("VelocityComp")
+AnimSprite = NodePath("AnimationController/AnimSprite")
 
-[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_04st2")
+
+[node name="Node" type="Node" parent="."]
+
+[node name="AnimationController" parent="." node_paths=PackedStringArray("AnimSprite") instance=ExtResource("2_3at6a")]
+AnimSprite = NodePath("AnimSprite")
+
+[node name="AnimSprite" type="AnimatedSprite2D" parent="AnimationController"]
 texture_filter = 1
 position = Vector2(4, -14)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_rsq0a")
 animation = &"Jump_Anim"
 autoplay = "Idle Right"
-frame = 5
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
 "o_ex_p": "",
@@ -261,12 +285,99 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "9c839332dc8a6ac49457e9126605790a"
 
-[node name="Player_Hurtbox" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_04st2")
-
 [node name="HealthComponent" type="Node" parent="."]
 
 [node name="AttackComponent" type="Node" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-4, -171)
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("4_2yo3l")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("5_at1br")
+
+[node name="StateCheck" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_hn4k0")
+initial_state = NodePath("Grounded")
+
+[node name="Grounded" type="Node" parent="StateChart/Root/StateCheck"]
+script = ExtResource("7_dstdp")
+
+[node name="Jumped" type="Node" parent="StateChart/Root/StateCheck/Grounded"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Airborne")
+event = &"Jump_state"
+delay_in_seconds = "0.0"
+
+[node name="Fall" type="Node" parent="StateChart/Root/StateCheck/Grounded"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Airborne")
+event = &"Fall_state"
+delay_in_seconds = "0.0"
+
+[node name="Airborne" type="Node" parent="StateChart/Root/StateCheck"]
+script = ExtResource("7_dstdp")
+
+[node name="Falling" type="Node" parent="StateChart/Root/StateCheck/Airborne"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Grounded")
+guard = SubResource("Resource_fid6i")
+delay_in_seconds = "0.0"
+
+[node name="AnimationStates" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_hn4k0")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root/AnimationStates"]
+script = ExtResource("7_dstdp")
+
+[node name="To Running" type="Node" parent="StateChart/Root/AnimationStates/Idle"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Running")
+event = &"Moving"
+delay_in_seconds = "0.0"
+
+[node name="Jump" type="Node" parent="StateChart/Root/AnimationStates/Idle"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Jumping")
+event = &"Jumping"
+delay_in_seconds = "0.0"
+
+[node name="Running" type="Node" parent="StateChart/Root/AnimationStates"]
+script = ExtResource("7_dstdp")
+
+[node name="To Idle" type="Node" parent="StateChart/Root/AnimationStates/Running"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Idle")
+event = &"Not_Moving"
+delay_in_seconds = "0.0"
+
+[node name="Jump" type="Node" parent="StateChart/Root/AnimationStates/Running"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Jumping")
+event = &"Jumping"
+delay_in_seconds = "0.0"
+
+[node name="Jumping" type="Node" parent="StateChart/Root/AnimationStates"]
+script = ExtResource("7_dstdp")
+
+[node name="still moving" type="Node" parent="StateChart/Root/AnimationStates/Jumping"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Running")
+event = &"Moving"
+guard = SubResource("Resource_1r54w")
+delay_in_seconds = "0.0"
+
+[node name="Not moving" type="Node" parent="StateChart/Root/AnimationStates/Jumping"]
+script = ExtResource("8_42be4")
+to = NodePath("../../Idle")
+event = &"Not_Moving"
+delay_in_seconds = "0.0"
+
+[node name="PlayerInputComp" parent="." instance=ExtResource("11_xu1wv")]
+
+[node name="VelocityComp" parent="." node_paths=PackedStringArray("CharBody", "InputNode") instance=ExtResource("12_5gsum")]
+CharBody = NodePath("..")
+InputNode = NodePath("../PlayerInputComp")
