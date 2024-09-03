@@ -1,10 +1,10 @@
-extends Node
+class_name Anim_Control extends Node
 
 @export_category("Settings")
 @export_group("Settings")
 ##Animated Sprite Node
 @export var AnimSprite: AnimatedSprite2D
-
+@export var Entitiy : CharacterBody2D
 var direction : Vector2 
 
 
@@ -15,6 +15,7 @@ func _process(delta: float) -> void:
 
 
 func _Ground_anim() -> void:
+	
 	
 	
 	

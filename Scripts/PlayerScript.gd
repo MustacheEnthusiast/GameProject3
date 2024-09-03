@@ -1,25 +1,27 @@
 class_name PLAYER extends CharacterBody2D
 
+
+@export_category("NodeSettings")
 @export_group("Nodes")
 @export var InputNode : INPUT
 @export var VelocityNode : VELOCITY
 @export var AnimSprite : AnimatedSprite2D
 @export var HealthNode : Node
+@export_group("NodeSettings")
+@export var HealthVal : float
 
-
+@export_category("Modifiers")
 @export_group("Sprint/MoveMods")
 @export var SprintMod : float = 1.5
 
 var addMods : Array[float] = []
 var multMods : Array[float] = []
 
+func _process(delta: float) -> void:
+	AnimSprite.position = self.position
 
 func _physics_process(delta: float) -> void:
 	
-	AnimSprite.position = self.position
-	
-	if Engine.is_editor_hint():
-		return
 	
 	addMods = []
 	multMods = []

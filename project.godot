@@ -27,6 +27,12 @@ window/stretch/mode="viewport"
 
 enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/ldtk-importer/plugin.cfg", "res://addons/script-tabs/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://Aseprite Files/": "green"
+}
+
 [global_group]
 
 Player="The player character"

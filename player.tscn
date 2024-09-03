@@ -1,11 +1,14 @@
-[gd_scene load_steps=43 format=3 uid="uid://csg8wjf6a5aob"]
+[gd_scene load_steps=47 format=3 uid="uid://csg8wjf6a5aob"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScript.gd" id="1_ipmmu"]
 [ext_resource type="PackedScene" uid="uid://cyu4ar4mkpere" path="res://Components/animation_controller.tscn" id="2_3at6a"]
 [ext_resource type="Texture2D" uid="uid://c81x8gv0nh7tm" path="res://Aseprite Files/Shrim Frames/ShrimpVer3.png" id="2_f5tvl"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_2yo3l"]
+[ext_resource type="PackedScene" uid="uid://bp688eqcgfjwd" path="res://Components/HealthComp/health_component.tscn" id="4_baop4"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="5_at1br"]
+[ext_resource type="PackedScene" uid="uid://c7xwwqj0hapij" path="res://Components/AttackComp/attack_component.tscn" id="5_ucs2o"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="6_hn4k0"]
+[ext_resource type="Script" path="res://Components/AttackComp/attack_component.gd" id="6_l0v47"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="7_dstdp"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="8_42be4"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/expression_guard.gd" id="9_68rkj"]
@@ -240,6 +243,10 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_js7ix"]
+radius = 29.0
+height = 80.0
+
 [sub_resource type="Resource" id="Resource_fid6i"]
 script = ExtResource("9_68rkj")
 expression = "is_on_floor() == true"
@@ -248,26 +255,29 @@ expression = "is_on_floor() == true"
 script = ExtResource("10_rraxh")
 state = NodePath("../../../StateCheck/Airborne")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("InputNode", "VelocityNode", "AnimSprite")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("InputNode", "VelocityNode", "AnimSprite", "HealthNode")]
 script = ExtResource("1_ipmmu")
 InputNode = NodePath("PlayerInputComp")
 VelocityNode = NodePath("VelocityComp")
 AnimSprite = NodePath("AnimationController/AnimSprite")
+HealthNode = NodePath("HealthComponent")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 11)
 shape = SubResource("CapsuleShape2D_04st2")
 
 [node name="Node" type="Node" parent="."]
 
-[node name="AnimationController" parent="." node_paths=PackedStringArray("AnimSprite") instance=ExtResource("2_3at6a")]
+[node name="AnimationController" parent="." node_paths=PackedStringArray("AnimSprite", "Entitiy") instance=ExtResource("2_3at6a")]
 AnimSprite = NodePath("AnimSprite")
+Entitiy = NodePath("..")
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="AnimationController"]
 texture_filter = 1
 position = Vector2(4, -14)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_rsq0a")
-animation = &"Jump_Anim"
+animation = &"Run"
 autoplay = "Idle Right"
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
@@ -285,12 +295,30 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "9c839332dc8a6ac49457e9126605790a"
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity", "Hurt_Box") instance=ExtResource("4_baop4")]
+Entity = NodePath("..")
+Hurt_Box = NodePath("HurtBox")
 
-[node name="AttackComponent" type="Node" parent="."]
+[node name="HurtBox" type="Area2D" parent="HealthComponent"]
+
+[node name="HurtBoxCollider" type="CollisionShape2D" parent="HealthComponent/HurtBox"]
+position = Vector2(0, 11)
+shape = SubResource("CapsuleShape2D_js7ix")
+
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("Hit_Box") instance=ExtResource("5_ucs2o")]
+script = ExtResource("6_l0v47")
+Hit_Box = [null, null]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-4, -171)
+position = Vector2(-9.53674e-07, -157)
+scale = Vector2(0.807275, 0.859156)
+zoom = Vector2(1.225, 1.225)
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_top_margin = 0.41
+drag_bottom_margin = 0.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("4_2yo3l")
@@ -379,5 +407,10 @@ delay_in_seconds = "0.0"
 [node name="PlayerInputComp" parent="." instance=ExtResource("11_xu1wv")]
 
 [node name="VelocityComp" parent="." node_paths=PackedStringArray("CharBody", "InputNode") instance=ExtResource("12_5gsum")]
+JUMP_FORCE = -620.0
 CharBody = NodePath("..")
 InputNode = NodePath("../PlayerInputComp")
+
+[node name="Fsm" type="Node" parent="."]
+
+[node name="Node" type="Node" parent="Fsm"]
