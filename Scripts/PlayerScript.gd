@@ -5,7 +5,7 @@ class_name PLAYER extends CharacterBody2D
 @export_group("Nodes")
 @export var InputNode : INPUT
 @export var VelocityNode : VELOCITY
-@export var AnimSprite : AnimatedSprite2D
+@export var BodySprite : Sprite2D
 @export var HealthNode : Node
 @export_group("NodeSettings")
 @export var HealthVal : float
@@ -18,7 +18,7 @@ var addMods : Array[float] = []
 var multMods : Array[float] = []
 
 func _process(delta: float) -> void:
-	AnimSprite.position = self.position
+	BodySprite.position = self.position
 
 func _physics_process(delta: float) -> void:
 	
@@ -27,13 +27,14 @@ func _physics_process(delta: float) -> void:
 	multMods = []
 	
 	InputNode.handleMoveInputs(delta)
+	InputNode.HandleAttackInputs()
 	
 	VelocityNode.calculateSpeed(addMods,multMods)
 	VelocityNode.handleVelocity(delta)
 	VelocityNode.activateMove()
 	
 	if signf(velocity.x) != 0:
-		AnimSprite.flip_h = velocity.x < 0
+		BodySprite.flip_h = velocity.x < 0
 	
 	
 
@@ -49,7 +50,7 @@ func _physics_process(delta: float) -> void:
 #@export var _Attack_Damage : int
 #@export var _Jump_Force : int
 #
-#@onready var _Sprite : AnimatedSprite2D = $AnimSprite
+#@onready var _Sprite : AnimatedSprite2D = $BodySprite
 #
 #var gravity : int = ProjectSettings.get_setting("physics/2d/default_gravity")
 ##Gravity is 980 by default

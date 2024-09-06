@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://d06j71tyuw3me"]
+
+[ext_resource type="Texture2D" uid="uid://bnt1agtypjc5f" path="res://Aseprite Files/bat3anim.png" id="1_a5w01"]
+[ext_resource type="Texture2D" uid="uid://dgjyik1vtoa01" path="res://Aseprite Files/Batanimatedsheet_n.png" id="2_wrw51"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_trnuv"]
+diffuse_texture = ExtResource("1_a5w01")
+normal_texture = ExtResource("2_wrw51")
+
+[sub_resource type="Animation" id="Animation_fe10g"]
+length = 0.4155
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2k6bd"]
+_data = {
+"default": SubResource("Animation_fe10g")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0uyqk"]
+radius = 15.0333
+
+[node name="BatPersonWIP" type="StaticBody2D"]
+
+[node name="Bat2" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("CanvasTexture_trnuv")
+hframes = 2
+vframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": true,
+"layer_section": true,
+"output_section": true,
+"slice_section": true
+}
+metadata/_aseprite_wizard_config_ = {
+"i_mode": 0,
+"keep_anim_length": true,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://Aseprite Files",
+"o_name": "bat3anim",
+"only_visible": true,
+"player": "AnimationPlayer",
+"set_vis_track": true,
+"slice": "",
+"source": "res://Aseprite Files/Bat3 (1).aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "98ef250bb6c7222d0f49144916dc3c8b"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Bat2")
+libraries = {
+"": SubResource("AnimationLibrary_2k6bd")
+}
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0uyqk")

@@ -606,8 +606,7 @@ to = NodePath("../../Idle")
 event = &"Not_Moving"
 delay_in_seconds = "0.0"
 
-[node name="PlayerInputComp" parent="." node_paths=PackedStringArray("AttackComp") instance=ExtResource("11_xu1wv")]
-AttackComp = NodePath("../AttackComponent")
+[node name="PlayerInputComp" parent="." instance=ExtResource("11_xu1wv")]
 
 [node name="VelocityComp" parent="." node_paths=PackedStringArray("CharBody", "InputNode", "AnimCtrl") instance=ExtResource("12_5gsum")]
 JUMP_FORCE = -620.0

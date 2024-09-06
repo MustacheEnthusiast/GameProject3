@@ -1,28 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://jas7khlsr43h"]
+[gd_scene load_steps=6 format=3 uid="uid://jas7khlsr43h"]
 
 [ext_resource type="PackedScene" uid="uid://csg8wjf6a5aob" path="res://player.tscn" id="2_bkc88"]
 [ext_resource type="PackedScene" uid="uid://v528v0bqi36y" path="res://Building Blocks/OW_plattform.tscn" id="2_hrbhi"]
 [ext_resource type="PackedScene" uid="uid://c2yepcng4sftl" path="res://Building Blocks/area_2d.tscn" id="3_4wkkj"]
+[ext_resource type="Texture2D" uid="uid://du6k67noda4ck" path="res://icon.svg" id="4_a1omy"]
+[ext_resource type="PackedScene" uid="uid://d06j71tyuw3me" path="res://Demo_Testing/bat_person_wip.tscn" id="5_mu83g"]
 
 [node name="Testing Area" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("2_bkc88")]
-position = Vector2(664, 304)
+position = Vector2(248, 136)
 
 [node name="Testing Level" type="Node2D" parent="."]
 position = Vector2(554, 414)
 
 [node name="Area2D" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-354, -38)
+position = Vector2(-354, -43)
 
 [node name="Area2D2" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(50, -38)
+position = Vector2(50, -43)
 
 [node name="Area2D3" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(451, -38)
+position = Vector2(451, -43)
 
 [node name="Area2D7" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
@@ -30,18 +32,109 @@ position = Vector2(278, -230)
 
 [node name="Area2D4" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(847, -38)
+position = Vector2(847, -43)
 
 [node name="Area2D5" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(1250, -38)
+position = Vector2(1250, -43)
 
 [node name="Area2D6" parent="Testing Level" instance=ExtResource("3_4wkkj")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(1653, -38)
+position = Vector2(1653, -43)
 
 [node name="OW_Platform" parent="Testing Level" instance=ExtResource("2_hrbhi")]
 modulate = Color(0.445716, 0.17824, 0.00350209, 1)
 position = Vector2(686, -230)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Ref" type="Node2D" parent="."]
+position = Vector2(592, 264)
+scale = Vector2(0.25, 0.25)
+
+[node name="Sprite2D" type="Sprite2D" parent="Ref"]
+position = Vector2(64, 64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Ref"]
+position = Vector2(64, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Ref"]
+position = Vector2(64, 320)
+texture = ExtResource("4_a1omy")
+
+[node name="SquareTileRef" type="Node2D" parent="."]
+position = Vector2(712, 264)
+scale = Vector2(0.25, 0.25)
+
+[node name="Sprite2D" type="Sprite2D" parent="SquareTileRef"]
+position = Vector2(64, 64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D2" type="Sprite2D" parent="SquareTileRef"]
+position = Vector2(64, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D3" type="Sprite2D" parent="SquareTileRef"]
+position = Vector2(192, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D4" type="Sprite2D" parent="SquareTileRef"]
+position = Vector2(192, 63.9999)
+texture = ExtResource("4_a1omy")
+
+[node name="Player Size ref" type="Node2D" parent="."]
+position = Vector2(448, 296)
+scale = Vector2(0.25, 0.25)
+
+[node name="Sprite2D" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(64, 64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(64, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(192, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(192, 63.9999)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(320, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D6" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(320, 63.9999)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D7" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(64, -64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D10" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(-64.0001, 64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D11" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(-64.0001, 192)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D12" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(-64.0001, -64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D8" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(192, -64)
+texture = ExtResource("4_a1omy")
+
+[node name="Sprite2D9" type="Sprite2D" parent="Player Size ref"]
+position = Vector2(320, -64)
+texture = ExtResource("4_a1omy")
+
+[node name="BatPersonWIP" parent="." instance=ExtResource("5_mu83g")]
+position = Vector2(816, 336)

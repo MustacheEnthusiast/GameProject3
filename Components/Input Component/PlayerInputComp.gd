@@ -2,7 +2,7 @@ class_name PLAYER_INPUT extends INPUT
 
 var runInput : bool
 var Is_Attacking : bool
-
+@export var AttackComp : Attack_Comp
 
 
 func handleMoveInputs(delta):
@@ -14,4 +14,6 @@ func handleMoveInputs(delta):
 func HandleAttackInputs():
 	
 	attackInput = Input.is_action_just_pressed("Attack")
+	if attackInput:
+		AttackComp._Deal_DMG()
 	

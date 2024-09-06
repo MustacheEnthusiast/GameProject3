@@ -1,0 +1,32 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://cwpkx1iwcftbg"]
+
+[ext_resource type="Texture2D" uid="uid://dgjyik1vtoa01" path="res://Aseprite Files/Batanimatedsheet_n.png" id="1_vbbbf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uo1s6"]
+atlas = ExtResource("1_vbbbf")
+region = Rect2(74, 0, 35, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1sh53"]
+atlas = ExtResource("1_vbbbf")
+region = Rect2(37, 0, 35, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pd1x"]
+atlas = ExtResource("1_vbbbf")
+region = Rect2(0, 0, 35, 33)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uo1s6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1sh53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pd1x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

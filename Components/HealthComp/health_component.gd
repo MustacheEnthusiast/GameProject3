@@ -17,17 +17,17 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	Hurt_Box.position = Entity.position
 	
-	if Input.is_action_just_pressed("Interact"):
-		_restore_health(2)
-		
-		print("Healed {HealAmount}".format({"HealAmount": 2}))
-	elif Input.is_action_just_pressed("Attack"):
-		_take_damage(2)
-		
-		print("Took {Damage} Damage".format({"Damage": 2}))
-	
-	_update_health()
-	
+	#if Input.is_action_just_pressed("Interact"):
+		#_restore_health(2)
+		#
+		#print("Healed {HealAmount}".format({"HealAmount": 2}))
+	#elif Input.is_action_just_pressed("Attack"):
+		#_take_damage(2)
+		#
+		#print("Took {Damage} Damage".format({"Damage": 2}))
+	#
+	#_update_health()
+	#
 
 ## Take Damage functions that just reduces your current health with damage.
 # I.e damage that goes in will be subtracted to the health value

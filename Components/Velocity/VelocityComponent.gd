@@ -7,24 +7,36 @@ class_name VELOCITY extends Node2D
 @export_group("Nodes")
 @export var CharBody : CharacterBody2D
 @export var InputNode : INPUT
-
+@export var AnimCtrl : Anim_Control
 var CurrentSpeed : float = SPEED
 var HoldingJump : bool = false
 
 var Active_State: Move_state = Move_state.Grounded
+var Active_SubState : Grounded_Substate = Grounded_Substate.Idle
 
 enum Move_state{Grounded,Falling,Ascending}
+enum Grounded_Substate{Idle, Running}
+
 
 signal Ascending
 signal Falling
 signal Grounded
 
+signal Idle
+signal Running
+
+var test : Signal
 
 var gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var grav_mod_min : float = 1
 @export var grav_mod_max : float = 2
 
 var grav_mod : float = 1
+
+func _ready() -> void:
+	pass
+
+
 func handleVelocity(delta):
 	if not CharBody.is_on_floor():
 		CharBody.velocity.y += gravity * delta * grav_mod
@@ -38,7 +50,7 @@ func handleVelocity(delta):
 	
 	if InputNode.getJumpInput() and CharBody.is_on_floor():
 		CharBody.velocity.y = JUMP_FORCE
-		
+		#AnimCtrl._Air_anim()
 		Mod_jump()
 		
 	
@@ -53,11 +65,15 @@ func handleVelocity(delta):
 	
 	if direction:
 		CharBody.velocity.x = direction * CurrentSpeed
-		
+		Set_Sub_State(Grounded_Substate.Running)
 	else:
 		CharBody.velocity.x = move_toward(CharBody.velocity.x, 0, SPEED)
-		
+		Set_Sub_State(Grounded_Substate.Idle)
 	
+
+
+func Sub_to_Grounded(function : Callable):
+	Grounded.connect(function)
 
 func Set_Move_State(NewState: Move_state) -> void:
 	
@@ -74,6 +90,19 @@ func Set_Move_State(NewState: Move_state) -> void:
 			Falling.emit()
 			grav_mod = grav_mod_max
 	print("currentSate %s" %Active_State)
+
+func Set_Sub_State(NewState: Grounded_Substate) -> void:
+	
+	if NewState == Active_SubState:
+		return
+	Active_SubState = NewState
+	match NewState:
+		Grounded_Substate.Idle:
+			Idle.emit()
+		Grounded_Substate.Running:
+			Running.emit()
+	
+	print("GroundSate %s" %Active_SubState)
 
 func Mod_jump():
 	Set_Move_State(Move_state.Ascending) 
