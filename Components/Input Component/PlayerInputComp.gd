@@ -5,7 +5,7 @@ var Is_Attacking : bool
 @export var AttackComp : Attack_Comp
 
 
-func handleMoveInputs(delta):
+func handleMoveInputs(_delta):
 	moveInput = Input.get_axis("Move_left","Move_right")
 	jumpInput = Input.is_action_just_pressed("Jump")
 	DropDownInput = Input.is_action_just_pressed("Down")

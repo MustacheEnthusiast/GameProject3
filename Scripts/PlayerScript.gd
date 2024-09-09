@@ -17,7 +17,9 @@ class_name PLAYER extends CharacterBody2D
 var addMods : Array[float] = []
 var multMods : Array[float] = []
 
-func _process(delta: float) -> void:
+signal Flipped
+
+func _process(_delta: float) -> void:
 	BodySprite.position = self.position
 
 func _physics_process(delta: float) -> void:
@@ -35,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	
 	if signf(velocity.x) != 0:
 		BodySprite.flip_h = velocity.x < 0
-	
+		Flipped.emit(BodySprite.flip_h)
 	
 
 

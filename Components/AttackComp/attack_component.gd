@@ -4,7 +4,7 @@ class_name Attack_Comp extends Node
 @export var Hit_Box : Array[Area2D]
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#self.position = get_parent().position
 	pass
 
@@ -12,11 +12,16 @@ func _Deal_DMG():
 	##check if it's bodies or areas later
 	Hit_Box[0].get_child(0).set_disabled(false)
 	
+	await get_tree().create_timer(0.3).timeout
 	
-	for bodies in Hit_Box[0].get_overlapping_bodies():
-		print(bodies.name)
+	for body in Hit_Box[0].get_overlapping_bodies():
+		
+		if body.has_node("HealthComponent"):
+			body.get_node("HealthComponent")._take_damage(Damage)
+		
+		print(body.name)
 	
-	await get_tree().create_timer(0.2).timeout
+	
 	Hit_Box[0].get_child(0).set_disabled(true)
 	print("Attack")
 

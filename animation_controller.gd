@@ -11,25 +11,17 @@ var SubStates : VELOCITY.Grounded_Substate = VELOCITY.Grounded_Substate.Idle
 #var Active_SubState : Grounded_Substate = Grounded_Substate.Idle
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 	
-
-
 
 func _on_velocity_comp_ascending() -> void:
 	
 	AnimPlayer.play("Jump")
 
-
-
-
 func _on_velocity_comp_falling() -> void:
 	
-	
 	AnimPlayer.play("Falling")
-
-
 
 func _on_velocity_comp_grounded() -> void:
 	
@@ -42,16 +34,13 @@ func _on_velocity_comp_grounded() -> void:
 		VELOCITY.Grounded_Substate.Running:
 			AnimPlayer.play("Run")
 
-
-
-
 func _on_velocity_comp_idle() -> void:
 	SubStates = VELOCITY.Grounded_Substate.Idle
 	
 	AnimPlayer.play("idleToRun",-1,-1, true )
 	await AnimPlayer.animation_finished
 	AnimPlayer.play("Idle Right")
-	print(AnimPlayer.animation_finished.emit)
+	#print(AnimPlayer.animation_finished.emit)
 
 func _on_velocity_comp_running() -> void:
 	SubStates = VELOCITY.Grounded_Substate.Running

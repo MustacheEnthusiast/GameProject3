@@ -14,7 +14,7 @@ func _ready() -> void:
 	Health = Max_Health
 	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	Hurt_Box.position = Entity.position
 	
 	#if Input.is_action_just_pressed("Interact"):
@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		#
 		#print("Took {Damage} Damage".format({"Damage": 2}))
 	#
-	#_update_health()
+	_update_health()
 	#
 
 ## Take Damage functions that just reduces your current health with damage.
@@ -36,7 +36,7 @@ func _take_damage(Damage : float):
 	Health -= Damage
 	
 	took_Damage.emit()
-
+	print("I % took: %d", &"Entity.name", Damage)
 
 ## checks if you are dead and makes sure that you won't go over Max Hp
 #
@@ -67,8 +67,8 @@ func _restore_health(Heal : float):
 func _Death():
 	
 	if Health == 0 and ded == false:
-		#Entity.queue_free()
-		print("i'm dead")
+		Entity.queue_free()
+		print( "i'm dead", Entity.name)
 		ded = true
 	elif Health != 0 and ded == true:
 		ded = false

@@ -89,7 +89,7 @@ func Set_Move_State(NewState: Move_state) -> void:
 		Move_state.Falling:
 			Falling.emit()
 			grav_mod = grav_mod_max
-	print("currentSate %s" %Active_State)
+	#print("currentSate %s" %Active_State)
 
 func Set_Sub_State(NewState: Grounded_Substate) -> void:
 	

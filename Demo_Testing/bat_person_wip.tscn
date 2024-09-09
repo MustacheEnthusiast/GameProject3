@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d06j71tyuw3me"]
+[gd_scene load_steps=8 format=3 uid="uid://d06j71tyuw3me"]
 
 [ext_resource type="Texture2D" uid="uid://bnt1agtypjc5f" path="res://Aseprite Files/bat3anim.png" id="1_a5w01"]
 [ext_resource type="Texture2D" uid="uid://dgjyik1vtoa01" path="res://Aseprite Files/Batanimatedsheet_n.png" id="2_wrw51"]
+[ext_resource type="PackedScene" uid="uid://bp688eqcgfjwd" path="res://Components/HealthComp/health_component.tscn" id="3_361cc"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_trnuv"]
 diffuse_texture = ExtResource("1_a5w01")
@@ -79,4 +80,13 @@ libraries = {
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0uyqk")
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity", "Hurt_Box") instance=ExtResource("3_361cc")]
+Entity = NodePath("..")
+Hurt_Box = NodePath("Area2D")
+
+[node name="Area2D" type="Area2D" parent="HealthComponent"]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HealthComponent/Area2D"]
 shape = SubResource("CircleShape2D_0uyqk")
