@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8cxt3m8xbqw6"]
+
+[ext_resource type="PackedScene" uid="uid://5tkk8t88nbgu" path="res://Scenes/uppgrade.tscn" id="1_2hc43"]
+[ext_resource type="Script" path="res://Scenes/Upgrade's/Dash/uppgrade_Dash.gd" id="2_kcgnk"]
+
+[node name="Uppgrade" instance=ExtResource("1_2hc43")]
+script = ExtResource("2_kcgnk")
+
+[connection signal="body_entered" from="Node2D/Area2D" to="." method="_on_area_2d_body_entered"]

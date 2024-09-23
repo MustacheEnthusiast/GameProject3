@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cyu4ar4mkpere"]
 
-[ext_resource type="Script" path="res://animation_controller.gd" id="1_owhbp"]
+[ext_resource type="Script" path="res://Components/AnimController/animation_controller.gd" id="1_owhbp"]
 
 [node name="AnimationController" type="Node" node_paths=PackedStringArray("AnimSprite")]
 script = ExtResource("1_owhbp")

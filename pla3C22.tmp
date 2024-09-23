@@ -1,7 +1,7 @@
-[gd_scene load_steps=34 format=3 uid="uid://csg8wjf6a5aob"]
+[gd_scene load_steps=31 format=3 uid="uid://csg8wjf6a5aob"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScript.gd" id="1_ipmmu"]
-[ext_resource type="PackedScene" uid="uid://cyu4ar4mkpere" path="res://Components/AnimController/animation_controller.tscn" id="2_3at6a"]
+[ext_resource type="PackedScene" uid="uid://cyu4ar4mkpere" path="res://Components/animation_controller.tscn" id="2_3at6a"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_2yo3l"]
 [ext_resource type="PackedScene" uid="uid://bp688eqcgfjwd" path="res://Components/HealthComp/health_component.tscn" id="4_baop4"]
 [ext_resource type="Texture2D" uid="uid://bfycox044y4cg" path="res://ShrimpVer3.png" id="4_n1xjb"]
@@ -15,10 +15,8 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="10_rraxh"]
 [ext_resource type="PackedScene" uid="uid://cdsxjfv24t6l1" path="res://Components/Input Component/PlayerInputComp.tscn" id="11_xu1wv"]
 [ext_resource type="PackedScene" uid="uid://bkqlik2fxo66g" path="res://Components/Velocity/VelocityComp.tscn" id="12_5gsum"]
-[ext_resource type="Texture2D" uid="uid://du6k67noda4ck" path="res://icon.svg" id="15_s1ib5"]
 [ext_resource type="Script" path="res://Components/Uppgrades/upgrades_component_Handler.gd" id="16_11q3e"]
 [ext_resource type="Script" path="res://Components/Uppgrades/Dash_Uppgrade.gd" id="17_1yrgc"]
-[ext_resource type="Script" path="res://Scenes/Upgrade's/GroundPound/GroundPoundUppgrade.gd" id="18_far1v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_04st2"]
 radius = 35.0
@@ -34,9 +32,6 @@ state = NodePath("../../../StateCheck/Airborne")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rqy0m"]
 size = Vector2(80, 50.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eynx"]
-size = Vector2(164, 21.25)
 
 [sub_resource type="Animation" id="Animation_xp50w"]
 resource_name = "Falling"
@@ -209,23 +204,21 @@ _data = {
 radius = 29.0
 height = 80.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("InputNode", "VelocityNode", "BodySprite", "HealthNode", "PowHandler")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("InputNode", "VelocityNode", "BodySprite", "HealthNode")]
 script = ExtResource("1_ipmmu")
 InputNode = NodePath("PlayerInputComp")
 VelocityNode = NodePath("VelocityComp")
 BodySprite = NodePath("PlayerBody")
 HealthNode = NodePath("HealthComponent")
-PowHandler = NodePath("UpgradesComponent")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, 11)
 shape = SubResource("CapsuleShape2D_04st2")
 
-[node name="AnimationController" parent="." node_paths=PackedStringArray("CharSprite", "CharBody", "AnimPlayer", "VelComp") instance=ExtResource("2_3at6a")]
+[node name="AnimationController" parent="." node_paths=PackedStringArray("CharSprite", "CharBody", "AnimPlayer") instance=ExtResource("2_3at6a")]
 CharSprite = NodePath("../PlayerBody")
 CharBody = NodePath("..")
 AnimPlayer = NodePath("../PlayerAnim")
-VelComp = NodePath("../VelocityComp")
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("Entity", "Hurt_Box") groups=["Player"] instance=ExtResource("4_baop4")]
 Health = 4.0
@@ -328,21 +321,19 @@ to = NodePath("../../Idle")
 event = &"Not_Moving"
 delay_in_seconds = "0.0"
 
-[node name="PlayerInputComp" parent="." node_paths=PackedStringArray("AttackComp", "PowHandler") instance=ExtResource("11_xu1wv")]
+[node name="PlayerInputComp" parent="." node_paths=PackedStringArray("AttackComp") instance=ExtResource("11_xu1wv")]
 AttackComp = NodePath("../AttackComponent")
-PowHandler = NodePath("../UpgradesComponent")
 
 [node name="VelocityComp" parent="." node_paths=PackedStringArray("CharBody", "InputNode", "AnimCtrl") instance=ExtResource("12_5gsum")]
 JUMP_FORCE = -620.0
 CharBody = NodePath("..")
 InputNode = NodePath("../PlayerInputComp")
 AnimCtrl = NodePath("../AnimationController")
-grav_mod_max = 3.0
 metadata/_edit_group_ = true
 
 [node name="AttackComponent" parent="." node_paths=PackedStringArray("Hit_Box") instance=ExtResource("5_ucs2o")]
 script = ExtResource("6_l0v47")
-Hit_Box = [NodePath("../Attack right"), NodePath("../Attack Left"), NodePath("../GroundPound")]
+Hit_Box = [NodePath("../Attack right"), NodePath("../Attack Left")]
 
 [node name="Attack Left" type="Area2D" parent="."]
 position = Vector2(5, 0)
@@ -350,20 +341,6 @@ position = Vector2(5, 0)
 [node name="AttackCollider" type="CollisionShape2D" parent="Attack Left"]
 position = Vector2(-86, 18)
 shape = SubResource("RectangleShape2D_rqy0m")
-disabled = true
-debug_color = Color(0.909536, 0.248171, 0.428549, 0.42)
-
-[node name="Sprite2D2" type="Sprite2D" parent="Attack Left"]
-position = Vector2(-86, 18)
-scale = Vector2(0.5625, 0.328125)
-texture = ExtResource("15_s1ib5")
-
-[node name="GroundPound" type="Area2D" parent="."]
-position = Vector2(5, 0)
-
-[node name="GrndPnd_AOE" type="CollisionShape2D" parent="GroundPound"]
-position = Vector2(-5, 56.375)
-shape = SubResource("RectangleShape2D_3eynx")
 disabled = true
 debug_color = Color(0.909536, 0.248171, 0.428549, 0.42)
 
@@ -376,14 +353,7 @@ shape = SubResource("RectangleShape2D_rqy0m")
 disabled = true
 debug_color = Color(0.909536, 0.248171, 0.428549, 0.42)
 
-[node name="Sprite2D" type="Sprite2D" parent="Attack right"]
-position = Vector2(77, 19)
-scale = Vector2(0.554688, 0.328125)
-texture = ExtResource("15_s1ib5")
-
 [node name="PlayerBody" type="Sprite2D" parent="."]
-z_index = 1
-y_sort_enabled = true
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("4_n1xjb")
@@ -423,22 +393,11 @@ libraries = {
 position = Vector2(0, 11)
 shape = SubResource("CapsuleShape2D_js7ix")
 
-[node name="UpgradesComponent" type="Node" parent="." node_paths=PackedStringArray("InputComp", "DashUpgrade")]
-unique_name_in_owner = true
+[node name="UpgradesComponent" type="Node" parent="."]
 script = ExtResource("16_11q3e")
-InputComp = NodePath("../PlayerInputComp")
-DashUpgrade = NodePath("Dash")
 
-[node name="Dash" type="Node" parent="UpgradesComponent" node_paths=PackedStringArray("VelComp", "InputComp", "Player")]
+[node name="Dash" type="Node" parent="UpgradesComponent"]
 script = ExtResource("17_1yrgc")
-VelComp = NodePath("../../VelocityComp")
-InputComp = NodePath("../../PlayerInputComp")
-Player = NodePath("../..")
-DashMod = 200
-
-[node name="GroundPound" type="Node" parent="UpgradesComponent" node_paths=PackedStringArray("AttackComp")]
-script = ExtResource("18_far1v")
-AttackComp = NodePath("../../AttackComponent")
 
 [connection signal="Flipped" from="." to="AttackComponent" method="_on_player_flipped"]
 [connection signal="Not_Flipped" from="." to="AttackComponent" method="_on_player_not_flipped"]

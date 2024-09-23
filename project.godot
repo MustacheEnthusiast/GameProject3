@@ -17,6 +17,10 @@ run/main_scene="res://Scenes/Testing.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://Aseprite Files/Icon/Icon.svg"
 
+[autoload]
+
+PowUps="*res://Components/UppgradesSingelton.gd"
+
 [display]
 
 window/size/viewport_width=1280
@@ -25,7 +29,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/ldtk-importer/plugin.cfg", "res://addons/script-tabs/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/YouCanDoIt/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/ldtk-importer/plugin.cfg", "res://addons/script-ide/plugin.cfg")
 
 [file_customization]
 

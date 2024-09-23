@@ -1,5 +1,6 @@
 class_name PLAYER extends CharacterBody2D
 
+@onready var UpgradesComponent = get_node("UpgradesComponent")
 
 @export_category("NodeSettings")
 @export_group("Nodes")
@@ -7,8 +8,8 @@ class_name PLAYER extends CharacterBody2D
 @export var VelocityNode : VELOCITY
 @export var BodySprite : Sprite2D
 @export var HealthNode : Node
-@export_group("NodeSettings")
-@export var HealthVal : float
+@export var PowHandler = UpgradesComponent
+
 
 @export_category("Modifiers")
 @export_group("Sprint/MoveMods")
@@ -18,27 +19,38 @@ var addMods : Array[float] = []
 var multMods : Array[float] = []
 
 signal Flipped
+signal Not_Flipped
 
 func _process(_delta: float) -> void:
-	BodySprite.position = self.position
+	#BodySprite.position = self.position ##Sprite body fix if wonky
+	pass
 
 func _physics_process(delta: float) -> void:
 	
 	
 	addMods = []
 	multMods = []
-	
+	#inputs
 	InputNode.handleMoveInputs(delta)
 	InputNode.HandleAttackInputs()
+	InputNode.ActionInputs()
 	
+	#movement
 	VelocityNode.calculateSpeed(addMods,multMods)
 	VelocityNode.handleVelocity(delta)
 	VelocityNode.activateMove()
 	
+	#Sprite Flipper
 	if signf(velocity.x) != 0:
-		BodySprite.flip_h = velocity.x < 0
-		Flipped.emit(BodySprite.flip_h)
+		BodySprite.flip_h = velocity.x <= 0
+		if BodySprite.flip_h == true:
+			Flipped.emit()
+		else:
+			Not_Flipped.emit()
 	
+	#PowHandler.Call_Action(Up_Handler.Actions.None)
+	
+
 
 
 #region Old_Original_Code

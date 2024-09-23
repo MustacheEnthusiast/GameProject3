@@ -15,18 +15,11 @@ func _ready() -> void:
 	
 
 func _process(_delta: float) -> void:
-	Hurt_Box.position = Entity.position
+	#Hurt_Box.position = Entity.position #debug option if hitbox is wonky
 	
-	#if Input.is_action_just_pressed("Interact"):
-		#_restore_health(2)
-		#
-		#print("Healed {HealAmount}".format({"HealAmount": 2}))
-	#elif Input.is_action_just_pressed("Attack"):
-		#_take_damage(2)
-		#
-		#print("Took {Damage} Damage".format({"Damage": 2}))
-	#
-	_update_health()
+	
+	if Health >= 0:
+		_Death()
 	#
 
 ## Take Damage functions that just reduces your current health with damage.
@@ -36,15 +29,14 @@ func _take_damage(Damage : float):
 	Health -= Damage
 	
 	took_Damage.emit()
-	print("I % took: %d", &"Entity.name", Damage)
+	print("I ",Entity.name," took: ", Damage, " Damage.") #debugging 
 
 ## checks if you are dead and makes sure that you won't go over Max Hp
 #
 func _update_health():
 	
 	#checks if you are dead
-	if Health >= 0:
-		_Death()
+
 	
 	#limits health to max health value
 

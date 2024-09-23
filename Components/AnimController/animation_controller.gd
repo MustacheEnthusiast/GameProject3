@@ -3,17 +3,26 @@ class_name Anim_Control extends Node
 @export_category("Settings")
 @export_group("Settings")
 ##Animated Sprite Node
-@export var AnimSprite: Sprite2D
+@export var CharSprite : Sprite2D
 @export var CharBody : CharacterBody2D
 @export var AnimPlayer : AnimationPlayer
+@export var VelComp : VELOCITY
+
+var Dash_image : PackedScene = preload("res://Scenes/Dash_Effect.tscn")
+
+var DashState = VELOCITY.Overrieds_States
+var DashList : VELOCITY.Overrieds_States = DashState.none
+
 
 var SubStates : VELOCITY.Grounded_Substate = VELOCITY.Grounded_Substate.Idle
 #var Active_SubState : Grounded_Substate = Grounded_Substate.Idle
 
-
-func _process(_delta: float) -> void:
+func _ready() -> void:
 	pass
-	
+
+func _physics_process(_delta: float) -> void:
+	pass
+
 
 func _on_velocity_comp_ascending() -> void:
 	
@@ -34,6 +43,7 @@ func _on_velocity_comp_grounded() -> void:
 		VELOCITY.Grounded_Substate.Running:
 			AnimPlayer.play("Run")
 
+
 func _on_velocity_comp_idle() -> void:
 	SubStates = VELOCITY.Grounded_Substate.Idle
 	
@@ -48,3 +58,9 @@ func _on_velocity_comp_running() -> void:
 	AnimPlayer.play("idleToRun")
 	await AnimPlayer.animation_finished
 	AnimPlayer.play("Run")
+
+
+func _on_health_component_took_damage() -> void:
+	
+	
+	pass

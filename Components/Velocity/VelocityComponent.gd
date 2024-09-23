@@ -13,10 +13,17 @@ var HoldingJump : bool = false
 
 var Active_State: Move_state = Move_state.Grounded
 var Active_SubState : Grounded_Substate = Grounded_Substate.Idle
+var Overrides : Overrieds_States = Overrieds_States.none
+
+var can_move : bool = true
 
 enum Move_state{Grounded,Falling,Ascending}
 enum Grounded_Substate{Idle, Running}
-
+enum Overrieds_States{
+	none = 0,
+	Dash = 1 << 0,
+	stunned = 1 << 1
+	}
 
 signal Ascending
 signal Falling
@@ -24,8 +31,10 @@ signal Grounded
 
 signal Idle
 signal Running
+#signal Dash
 
-var test : Signal
+
+#var test : Signal
 
 var gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var grav_mod_min : float = 1
@@ -34,15 +43,21 @@ var gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var grav_mod : float = 1
 
 func _ready() -> void:
+	
 	pass
 
 
-func handleVelocity(delta):
+func handleVelocity(delta) -> void:
+	
+
+	
+#region JumpCode
+	
 	if not CharBody.is_on_floor():
 		CharBody.velocity.y += gravity * delta * grav_mod
 	else:
 		
-		Set_Move_State(Move_state.Grounded) 
+		Set_Move_State(Move_state.Grounded)
 		
 	
 	if Input.is_action_pressed("Down") and CharBody.is_on_floor():
@@ -60,8 +75,12 @@ func handleVelocity(delta):
 	elif Input.is_action_just_released("Jump"):
 		Set_Move_State(Move_state.Falling)
 	
+#endregion
+	
 	var direction = InputNode.getMoveInput()
 	
+	if can_move == false:
+		return
 	
 	if direction:
 		CharBody.velocity.x = direction * CurrentSpeed
@@ -88,6 +107,7 @@ func Set_Move_State(NewState: Move_state) -> void:
 			Ascending.emit()
 		Move_state.Falling:
 			Falling.emit()
+			CharBody.velocity.y = 0
 			grav_mod = grav_mod_max
 	#print("currentSate %s" %Active_State)
 
@@ -102,15 +122,52 @@ func Set_Sub_State(NewState: Grounded_Substate) -> void:
 		Grounded_Substate.Running:
 			Running.emit()
 	
-	print("GroundSate %s" %Active_SubState)
+	
+	print("GroundSate %s" % "Active_SubState")
+
+func Override_state(State : Overrieds_States, set_active:bool) -> void:
+	
+	if set_active == true:
+		Overrides |= State #Sets Bit Slot to 1 (Aka disables player controls)
+		can_move = false
+	else:
+		
+		Overrides &= ~State #Sets Bit Slot to 0
+		if Overrides == Overrieds_States.none: # checks if should Enable player controls
+			can_move = true
+			print("can_move")
+			pass
+	print(Overrides)
+	
+	return
+#region TestCode
+	
+	#match State:
+		#Overrieds_States.Dash:
+			#if set_active == true:
+				#Overrides |= Overrieds_States.Dash 
+			#else:
+				#Overrides &= ~Overrieds_States.Dash
+			#
+		#Overrieds_States.stunned:
+			#
+			#
+			#pass
+		#
+		#
+		#pass
+	
+#endregion
+	
+
 
 func Mod_jump():
-	Set_Move_State(Move_state.Ascending) 
+	Set_Move_State(Move_state.Ascending)
 	await Falling
-	Set_Move_State(Move_state.Falling) 
+	Set_Move_State(Move_state.Falling)
 	
 	if CharBody.velocity.y < 0:
-		CharBody.velocity.y /= 2
+		CharBody.velocity.y /= 3
 	
 	
 	print(" End of jump ")

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ciyw7nm5v7lcu"]
+
+[ext_resource type="Texture2D" uid="uid://61645vr5om7o" path="res://Aseprite Files/Shrim Frames/ShrimpBlue.png" id="1_2pivw"]
+[ext_resource type="Script" path="res://Scenes/dash_effect.gd" id="1_gm6rj"]
+
+[node name="Sprite2D" type="Sprite2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("1_2pivw")
+hframes = 6
+vframes = 5
+frame = 11
+script = ExtResource("1_gm6rj")

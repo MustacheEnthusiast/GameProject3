@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://5tkk8t88nbgu"]
+
+[ext_resource type="Texture2D" uid="uid://du6k67noda4ck" path="res://icon.svg" id="1_sjnsh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tyxtv"]
+radius = 63.0317
+
+[sub_resource type="Animation" id="Animation_mcffc"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_lbqb8"]
+resource_name = "Upgrade anim"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667, 0.433333, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 1), Vector2(0, -12), Vector2(0, 10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7kqgu"]
+_data = {
+"RESET": SubResource("Animation_mcffc"),
+"Upgrade anim": SubResource("Animation_lbqb8")
+}
+
+[node name="Uppgrade" type="Node2D"]
+
+[node name="Node2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.6)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_sjnsh")
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+shape = SubResource("CircleShape2D_tyxtv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7kqgu")
+}
+autoplay = "Upgrade anim"
